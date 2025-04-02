@@ -1,15 +1,21 @@
-const BASE_URL = import.meta.env.VITE_API_URL || '/api';
+const BASE_URL = 'https://todo-backend-v48e.onrender.com/api';
 
 const handleResponse = async (response) => {
     if (!response.ok) {
-        const error = await response.json().catch(() => ({}));
-        throw new Error(error.message || `HTTP error! status: ${response.status}`);
+        const errorData = await response.json().catch(() => ({ message: 'Network error' }));
+        console.error('API Error:', {
+            status: response.status,
+            statusText: response.statusText,
+            error: errorData
+        });
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
     }
     return response.json();
 };
 
 export const getAllTodos = async () => {
     try {
+        console.log('Fetching todos from:', `${BASE_URL}/todos`);
         const response = await fetch(`${BASE_URL}/todos`);
         return handleResponse(response);
     } catch (error) {
@@ -20,6 +26,7 @@ export const getAllTodos = async () => {
 
 export const createTodo = async (text) => {
     try {
+        console.log('Creating todo:', text);
         const response = await fetch(`${BASE_URL}/todos`, {
             method: 'POST',
             headers: {
@@ -36,6 +43,7 @@ export const createTodo = async (text) => {
 
 export const updateTodo = async (id, updates) => {
     try {
+        console.log('Updating todo:', id, updates);
         const response = await fetch(`${BASE_URL}/todos/${id}`, {
             method: 'PATCH',
             headers: {
@@ -52,6 +60,7 @@ export const updateTodo = async (id, updates) => {
 
 export const deleteTodo = async (id) => {
     try {
+        console.log('Deleting todo:', id);
         const response = await fetch(`${BASE_URL}/todos/${id}`, {
             method: 'DELETE',
         });
