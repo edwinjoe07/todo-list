@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:5000/api';
+const BASE_URL = 'https://todo-backend-v48e.onrender.com';
 
 const handleResponse = async (response) => {
     if (!response.ok) {
