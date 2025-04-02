@@ -1,4 +1,4 @@
-const BASE_URL = 'https://todo-backend-v48e.onrender.com';
+const BASE_URL = import.meta.env.VITE_API_URL || '/api';
 
 const handleResponse = async (response) => {
     if (!response.ok) {
